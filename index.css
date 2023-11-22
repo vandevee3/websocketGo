@@ -1,0 +1,8 @@
+.chatWindow{
+    display: flex;
+    flex-direction: column;
+}
+
+.chatList{
+    display: flex;
+}

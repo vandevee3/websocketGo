@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="webTitle">Web Socket Project</title>
+    <link rel="stylesheet" type="
+    text/css" href="index.css">
+
+    <div class = "chatWindow" id ="myChatWindow">
+        <pre>
+            <h1 class="chatlist" id="output"></h1>
+        </pre>
+        <h1><input id="myName" type="text"/></h1>
+        <input id="input" type="text"/>
+        <button onclick="send()">Send</button> 
+    </div>
+
+    
+    <script>
+        var input = document.getElementById("input");
+        var x = document.getElementById("myName");
+        var output = document.getElementById("output");
+        var socket = new WebSocket("ws://localhost:8080/echo");
+    
+        socket.onopen = function () {
+            output.innerHTML += "Status: Connected\n";
+        };
+    
+        socket.onmessage = function (e) {
+            jsonObject = JSON.parse(e.data)
+            output.innerHTML += jsonObject.name + ":" + jsonObject.message + "\n";
+        };
+    
+        function send() {
+            String(x.value)
+            socket.send(JSON.stringify({
+                name : x.value,
+                message : input.value
+            }))
+            input.value = "";
+        }
+    </script>
+</html>
+
